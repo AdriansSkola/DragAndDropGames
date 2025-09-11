@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class ObjectScript : MonoBehaviour
 {
     public GameObject[] vehicles;
@@ -14,8 +15,13 @@ public class ObjectScript : MonoBehaviour
     public bool rightPlace = false;
     public GameObject lastDragged = null;
 
-    void Start(){
-    
+    void Awake()
+    {
+        startCoordinates = new Vector2[vehicles.Length]; 
+        for(int i = 0; i < vehicles.Length; i++)
+        {
+            startCoordinates[i] = vehicles[i].GetComponent<RectTransform>().localPosition;
+        }
     }
 }
 
