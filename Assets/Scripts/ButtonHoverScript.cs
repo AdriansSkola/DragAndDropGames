@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class ButtonHoverScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public float sizeDifference = 1.03f;
+    public float sizeDifference = 1.02f;
     private Vector2 originalSize;
     private RectTransform rectTransform;
 
