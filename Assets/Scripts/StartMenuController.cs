@@ -8,6 +8,11 @@ public class StartMenuController : MonoBehaviour
         SceneManager.LoadScene("City Scene");
     }
 
+    public void OnBackClick()
+    {
+        SceneManager.LoadScene("StartMenu");
+    }
+
     public void OnExitClick()
     {
         Application.Quit();
