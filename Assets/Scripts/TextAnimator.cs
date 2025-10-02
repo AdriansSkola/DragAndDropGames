@@ -30,7 +30,7 @@ public class TextAnimator : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(RunAnimation(3));
+        StartCoroutine(RunAnimation(0));
     }
 
     IEnumerator RunAnimation(float waitForSeconds)

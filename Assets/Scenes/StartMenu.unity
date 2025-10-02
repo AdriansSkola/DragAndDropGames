@@ -553,17 +553,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56248d7a6c1e5c54181468651a023072, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _message: 
-  _stringAnimationDuration: 0
-  _animatedText: {fileID: 0}
+  _message: DRAG AND DROP GAMES
+  _stringAnimationDuration: 2
+  _animatedText: {fileID: 862456172}
   _sizeCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0.19751094
+      outSlope: 0.19751094
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.49920273
+      value: 1.098598
+      inSlope: 0.00031443685
+      outSlope: 0.00031443685
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -0.19688207
+      outSlope: -0.19688207
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _sizeScale: 0
-  _charAnimationDuration: 0
+  _sizeScale: 60
+  _charAnimationDuration: 0.6
 --- !u!1 &862456170
 GameObject:
   m_ObjectHideFlags: 0
@@ -621,7 +648,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Drag and Drop Games
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -655,8 +682,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_HorizontalAlignment: 8
+  m_VerticalAlignment: 2048
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
