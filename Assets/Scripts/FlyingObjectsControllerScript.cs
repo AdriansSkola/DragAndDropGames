@@ -69,7 +69,7 @@ public class FlyingObjectsControllerScript : MonoBehaviour
             
             if(ObjectScript.lastDragged != null)
             {
-                StartCoroutine(ShrinkAndDestroy(ObjectScript.lastDragged, 0.5f));
+                StartCoroutine(ShrinkAndDestroy(ObjectScript.lastDragged, 0.7f));
                 ObjectScript.lastDragged = null;
                 ObjectScript.drag = false;
             }
@@ -81,7 +81,7 @@ public class FlyingObjectsControllerScript : MonoBehaviour
     public void TriggerExplosion()
     {
         isExploading = true;
-        objectScript.effects.PlayOneShot(objectScript.audioCli[15], 100f);
+        objectScript.effects.PlayOneShot(objectScript.audioCli[15], 10f);
 
         if(TryGetComponent<Animator>(out Animator animator))
         {
