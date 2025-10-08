@@ -39,6 +39,7 @@ public class DropPlaceScript : MonoBehaviour, IDropHandler
                 {
                     Debug.Log("Correct place");
                     objScript.rightPlace = true;
+                    GameManager.Instance.OnVehiclePlaced();
                     eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = 
                         GetComponent<RectTransform>().anchoredPosition;
 

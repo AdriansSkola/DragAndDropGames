@@ -72,6 +72,11 @@ public class FlyingObjectsControllerScript : MonoBehaviour
                 StartCoroutine(ShrinkAndDestroy(ObjectScript.lastDragged, 0.7f));
                 ObjectScript.lastDragged = null;
                 ObjectScript.drag = false;
+
+                if (GameManager.Instance != null)
+                {
+                    GameManager.Instance.OnVehicleDestroyed();
+                }
             }
 
             StartToDestroy();
