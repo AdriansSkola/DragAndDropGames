@@ -63,6 +63,21 @@ public class GameManager : MonoBehaviour
             losePanel.SetActive(true);
     }
 
+    public void ShowLosePanel()
+    {
+        if (gameEnded) return;
+
+        gameEnded = true;
+        if (timer != null) timer.StopTimer();
+
+        if (losePanel != null)
+            losePanel.SetActive(true);
+
+        // Atskaņo skaņu
+        if (objectScript != null)
+            objectScript.effects.PlayOneShot(objectScript.audioCli[17], 1f);
+    }
+
     void Win()
     {
         gameEnded = true;

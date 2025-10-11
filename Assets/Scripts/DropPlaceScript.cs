@@ -111,6 +111,9 @@ public class DropPlaceScript : MonoBehaviour, IDropHandler
                 objScript.rightPlace = false;
                 objScript.effects.PlayOneShot(objScript.audioCli[1]);
 
+                GameManager.Instance.ShowLosePanel();
+
+                /*
                 switch (eventData.pointerDrag.tag)
                 {
                     case "Garbage":
@@ -176,7 +179,7 @@ public class DropPlaceScript : MonoBehaviour, IDropHandler
                     default:
                         Debug.Log("Unknown tag detected");
                         break;
-                }
+                }*/
             }
         }
     }
