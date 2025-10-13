@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class TextAnimator : MonoBehaviour
@@ -38,7 +37,7 @@ public class TextAnimator : MonoBehaviour
         yield return new WaitForSeconds(waitForSeconds);
 
         float t = 0;
-        while(t <= 1f)
+        while (t <= 1f)
         {
             EvaluateRichText(t);
             t = _timeElapsed / _stringAnimationDuration;
@@ -52,7 +51,7 @@ public class TextAnimator : MonoBehaviour
     {
         _animatedText.text = "";
 
-        for(int i = 0; i < _message.Length; i++)
+        for (int i = 0; i < _message.Length; i++)
         {
             _animatedText.text += EvaluateCharRichText(_message[i], _message.Length, i, t);
         }

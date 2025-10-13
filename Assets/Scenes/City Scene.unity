@@ -2392,10 +2392,10 @@ MonoBehaviour:
   winTimeText: {fileID: 807219028}
   starsText: {fileID: 24748665}
   objectScript: {fileID: 552125580}
-  totalVehicles: 3
-  threeStarThreshold: 30
-  twoStarThreshold: 60
-  oneStarThreshold: 120
+  totalVehicles: 12
+  threeStarThreshold: 60
+  twoStarThreshold: 120
+  oneStarThreshold: 180
 --- !u!1 &612782135
 GameObject:
   m_ObjectHideFlags: 0
