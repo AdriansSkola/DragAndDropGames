@@ -122,4 +122,19 @@ public class GameManager : MonoBehaviour
         // Ielādē “StartMenu” ainu
         SceneManager.LoadScene("StartMenu");
     }
+
+    public void FreezeGame()
+    {
+        Time.timeScale = 0f; // apstādina spēli
+    }
+
+    public void UnfreezeGame()
+    {
+        Time.timeScale = 1f; // atjauno kustību
+    }
+
+    public bool IsGameEnded()
+    {
+        return gameEnded;
+    }
 }

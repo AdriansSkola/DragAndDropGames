@@ -22,61 +22,62 @@ public class FlyingObjectsControllerScript : MonoBehaviour
     {
         canvasGroup = GetComponent<CanvasGroup>();
         if (canvasGroup == null)
-        {
             canvasGroup = gameObject.AddComponent<CanvasGroup>();
-        }
 
         rectTransform = GetComponent<RectTransform>();
-
         image = GetComponent<Image>();
         originalColor = image.color;
+
         objectScript = FindFirstObjectByType<ObjectScript>();
         scrreenBoundriesScript = FindFirstObjectByType<ScreenBoundriesScript>();
+
         StartCoroutine(FadeIn());
     }
 
-    // Update is called once per frame
     void Update()
     {
+        // ja spēle beigusies, tikai turpina kustību (bez interakcijas)
+        bool gameEnded = GameManager.Instance != null && GameManager.Instance.IsGameEnded();
+
         float waveOffset = Mathf.Sin(Time.time * waveFrequency) * waveAmplitude;
         rectTransform.anchoredPosition += new Vector2(-speed * Time.deltaTime, waveOffset * Time.deltaTime);
-        // <-
+
+        // <- pa kreisi
         if (speed > 0 && transform.position.x < (scrreenBoundriesScript.minX + 80) && !isFadingOut)
         {
             StartCoroutine(FadeOutAndDestroy());
             isFadingOut = true;
         }
 
-        // ->
+        // -> pa labi
         if (speed < 0 && transform.position.x > (scrreenBoundriesScript.maxX - 80) && !isFadingOut)
         {
             StartCoroutine(FadeOutAndDestroy());
             isFadingOut = true;
         }
 
-        if(CompareTag("Bomb") && !isExploading &&
-            RectTransformUtility.RectangleContainsScreenPoint(
-                rectTransform, Input.mousePosition, Camera.main))
+        // 💣 Bombei — ja kursors ir virs, bet tikai ja spēle nav beigusies
+        if (!gameEnded && CompareTag("Bomb") && !isExploading &&
+            RectTransformUtility.RectangleContainsScreenPoint(rectTransform, Input.mousePosition, Camera.main))
         {
-            Debug.Log("The cursosr collided with a bomb! (without a car)");
+            Debug.Log("The cursor collided with a bomb! (without a car)");
             TriggerExplosion();
         }
 
-        if (ObjectScript.drag && !isFadingOut &&
+        // 🚗 Kolīzija ar auto, ja spēle vēl notiek
+        if (!gameEnded && ObjectScript.drag && !isFadingOut &&
             RectTransformUtility.RectangleContainsScreenPoint(rectTransform, Input.mousePosition, Camera.main))
         {
             Debug.Log("The cursor collided with a flying object!");
-            
-            if(ObjectScript.lastDragged != null)
+
+            if (ObjectScript.lastDragged != null)
             {
                 StartCoroutine(ShrinkAndDestroy(ObjectScript.lastDragged, 0.7f));
                 ObjectScript.lastDragged = null;
                 ObjectScript.drag = false;
 
                 if (GameManager.Instance != null)
-                {
                     GameManager.Instance.OnVehicleDestroyed();
-                }
             }
 
             StartToDestroy();
@@ -85,13 +86,15 @@ public class FlyingObjectsControllerScript : MonoBehaviour
 
     public void TriggerExplosion()
     {
+        // 🛑 ja spēle beigusies, neko vairs nedara
+        if (GameManager.Instance != null && GameManager.Instance.IsGameEnded())
+            return;
+
         isExploading = true;
         objectScript.effects.PlayOneShot(objectScript.audioCli[15], 1f);
 
-        if(TryGetComponent<Animator>(out Animator animator))
-        {
+        if (TryGetComponent<Animator>(out Animator animator))
             animator.SetBool("explode", true);
-        }
 
         image.color = Color.red;
         StartCoroutine(RecoverColor(0.4f));
@@ -103,10 +106,9 @@ public class FlyingObjectsControllerScript : MonoBehaviour
     IEnumerator WaitbeforeExploaded()
     {
         float radius = 0f;
-        if(TryGetComponent<CircleCollider2D>(out CircleCollider2D circleCollider))
-        {
+        if (TryGetComponent<CircleCollider2D>(out CircleCollider2D circleCollider))
             radius = circleCollider.radius * transform.lossyScale.x;
-        }
+
         ExplodeAndDestroy(radius);
         yield return new WaitForSeconds(1f);
         ExplodeAndDestroy(radius);
@@ -119,21 +121,22 @@ public class FlyingObjectsControllerScript : MonoBehaviour
 
         foreach (var hitCollider in hitColliders)
         {
-            if(hitCollider != null && hitCollider.gameObject != gameObject)
+            if (hitCollider != null && hitCollider.gameObject != gameObject)
             {
-                FlyingObjectsControllerScript obj = 
-                    hitCollider.gameObject.GetComponent<FlyingObjectsControllerScript>();
+                FlyingObjectsControllerScript obj = hitCollider.gameObject.GetComponent<FlyingObjectsControllerScript>();
 
-                if(obj != null && !obj.isExploading)
-                {
+                if (obj != null && !obj.isExploading)
                     obj.StartToDestroy();
-                }
             }
         }
     }
 
     public void StartToDestroy()
     {
+        // 🛑 ja spēle beigusies, neko vairs nedara
+        if (GameManager.Instance != null && GameManager.Instance.IsGameEnded())
+            return;
+
         if (!isFadingOut)
         {
             StartCoroutine(FadeOutAndDestroy());
@@ -143,7 +146,6 @@ public class FlyingObjectsControllerScript : MonoBehaviour
             StartCoroutine(RecoverColor(0.5f));
 
             objectScript.effects.PlayOneShot(objectScript.audioCli[14]);
-
             StartCoroutine(Vibrate());
         }
     }
@@ -152,13 +154,13 @@ public class FlyingObjectsControllerScript : MonoBehaviour
     {
         Vector2 originalPosition = rectTransform.anchoredPosition;
         float duration = 0.3f;
-        float elpased = 0f;
+        float elapsed = 0f;
         float intensity = 5f;
 
-        while(elpased < duration)
+        while (elapsed < duration)
         {
             rectTransform.anchoredPosition = originalPosition + Random.insideUnitCircle * intensity;
-            elpased += Time.deltaTime;
+            elapsed += Time.deltaTime;
             yield return null;
         }
         rectTransform.anchoredPosition = originalPosition;
@@ -197,13 +199,12 @@ public class FlyingObjectsControllerScript : MonoBehaviour
         Quaternion originalRotation = target.transform.rotation;
         float t = 0f;
 
-        while(t < duration)
+        while (t < duration)
         {
             t += Time.deltaTime;
             target.transform.localScale = Vector3.Lerp(originalScale, Vector3.zero, t / duration);
             float angle = Mathf.Lerp(0f, 360f, t / duration);
             target.transform.rotation = Quaternion.Euler(0f, 0f, angle);
-
             yield return null;
         }
         Destroy(target);

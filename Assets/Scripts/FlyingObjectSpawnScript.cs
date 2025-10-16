@@ -27,6 +27,9 @@ public class FlyingObjectSpawnScript : MonoBehaviour
 
     void SpawnCloud()
     {
+        if (GameManager.Instance != null && GameManager.Instance.IsGameEnded())
+            return;
+
         if (cloudsPrefabs.Length == 0)
             return;
 
@@ -41,10 +44,13 @@ public class FlyingObjectSpawnScript : MonoBehaviour
 
     void SpawnObject()
     {
+        if (GameManager.Instance != null && GameManager.Instance.IsGameEnded())
+            return;
+
         if (objectPrefabs.Length == 0)
             return;
 
-        GameObject objectPrefab = objectPrefabs[Random.Range(0, cloudsPrefabs.Length)];
+        GameObject objectPrefab = objectPrefabs[Random.Range(0, objectPrefabs.Length)];
         float y = Random.Range(minY, MaxY);
         Vector3 spawnPosition = new Vector3(-spawnPoint.position.x, y, spawnPoint.position.z);
         GameObject flyingObject = Instantiate(objectPrefab, spawnPosition, Quaternion.identity, spawnPoint);
@@ -52,5 +58,4 @@ public class FlyingObjectSpawnScript : MonoBehaviour
         FlyingObjectsControllerScript controller = flyingObject.GetComponent<FlyingObjectsControllerScript>();
         controller.speed = -movementSpeed;
     }
-
 }
