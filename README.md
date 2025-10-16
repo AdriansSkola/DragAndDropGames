@@ -1,5 +1,7 @@
 # DragAndDropGames
-Unity 2D Drag And Drop games for children +6
+Unity 2D Drag And Drop games for children +6.
+
+This is a children's interactive puzzle game where you need to rotate and scale the cars to the correct sizes in order to win. You can earn 3 stars if you complete the puzzle in under two minutes, 2 stars if you finish in under three minutes, and 1 star if you finish in under four minutes. You can use bombs to destroy clouds and flying objects by hovering over the bombs that float around the screen.
 
 **To do list:**
 - [x] Create the necessary folders
@@ -14,14 +16,22 @@ Unity 2D Drag And Drop games for children +6
 - [x] Create animated main menu with 3 buttons, sounds, animated objects
 - [x] Create C# script for scene change and quit option 
 - [x] Create game timer (MM:SS)
-- [ ] Add animated clouds, vehicles, people, animals etc.
+- [x] Add animated clouds, vehicles, people, animals etc.
 - [x] Add flying obstacles with destroy effects
 
-**Here you can see the Start Menu**
+**Here you can see the Start Menu.**
+
 <img width="1919" height="1079" alt="menu" src="https://github.com/user-attachments/assets/5f267251-40b0-4102-ab13-697165110fec" />
 
-**Here is the main game, where you need to scale and rotate the cars in the right places**
+**Here is the main game, where you need to scale and rotate the cars into the correct positions.**
+
 <img width="1919" height="1079" alt="game_1" src="https://github.com/user-attachments/assets/1587764d-0f32-4fa5-af49-3c5d727cdce3" />
 
-**Here you can see the menu when you lose the game**
+**Here you can see a screenshot of the game showing your win, along with the stars earned and completion time.**
+
+<img width="1919" height="1079" alt="win" src="https://github.com/user-attachments/assets/72717330-a9d2-4328-bbbc-7994d381a256" />
+
+
+**Here you can see a screenshot of the game when you lose.**
+
 <img width="1918" height="1079" alt="lost" src="https://github.com/user-attachments/assets/100f40f6-158c-4070-8b86-28100698e8bb" />
