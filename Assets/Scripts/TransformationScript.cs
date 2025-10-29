@@ -1,72 +1,71 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
+// CHANGES FOR ANDROID
 public class TransformationScript : MonoBehaviour
 {
+    public float rotationSpeed = 90f;
+    public float scaleSpeed = 0.5f;
+    public static bool isTransforming = false;
+    private bool rotateCW, rotateCCW, scaleUpY, scaleDownY, scalUpX, scaleDownX;
+
+
+
     void Update()
     {
-        if (ObjectScript.lastDragged != null)
+        if (ObjectScript.lastDragged == null)
+            return;
+
+        RectTransform rt = ObjectScript.lastDragged.GetComponent<RectTransform>();
+
+        if (rotateCW)
         {
-            if (Input.GetKey(KeyCode.Z))
-            {
-                ObjectScript.lastDragged.GetComponent<RectTransform>().transform.Rotate(
-                    0, 0, Time.deltaTime * 15f);
-            }
-
-            if (Input.GetKey(KeyCode.X))
-            {
-                ObjectScript.lastDragged.GetComponent<RectTransform>().transform.Rotate(
-                    0, 0, -Time.deltaTime * 15f);
-            }
-
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-                if (ObjectScript.lastDragged.GetComponent<RectTransform>().transform.localScale.y < 0.9f)
-                {
-                    ObjectScript.lastDragged.GetComponent<RectTransform>().transform.localScale =
-                        new Vector3(
-                        ObjectScript.lastDragged.GetComponent<RectTransform>().transform.localScale.x,
-                        ObjectScript.lastDragged.GetComponent<RectTransform>().transform.localScale.y + 0.005f,
-                        1f);
-                }
-            }
-
-            if (Input.GetKey(KeyCode.DownArrow))
-            {
-                if (ObjectScript.lastDragged.GetComponent<RectTransform>().transform.localScale.y > 0.3f)
-                {
-                    ObjectScript.lastDragged.GetComponent<RectTransform>().transform.localScale =
-                    new Vector3(
-                    ObjectScript.lastDragged.GetComponent<RectTransform>().transform.localScale.x,
-                    ObjectScript.lastDragged.GetComponent<RectTransform>().transform.localScale.y - 0.005f,
-                    1f);
-                }
-
-            }
-
-            if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                if (ObjectScript.lastDragged.GetComponent<RectTransform>().transform.localScale.x > 0.3f)
-                {
-                    ObjectScript.lastDragged.GetComponent<RectTransform>().transform.localScale =
-                        new Vector3(
-                        ObjectScript.lastDragged.GetComponent<RectTransform>().transform.localScale.x - 0.005f,
-                        ObjectScript.lastDragged.GetComponent<RectTransform>().transform.localScale.y,
-                        1f);
-                }
-            }
-
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                if (ObjectScript.lastDragged.GetComponent<RectTransform>().transform.localScale.x < 0.9f)
-                {
-                    ObjectScript.lastDragged.GetComponent<RectTransform>().transform.localScale =
-                        new Vector3(
-                        ObjectScript.lastDragged.GetComponent<RectTransform>().transform.localScale.x + 0.005f,
-                        ObjectScript.lastDragged.GetComponent<RectTransform>().transform.localScale.y,
-                        1f);
-                }
-            }
-
+            rt.Rotate(0, 0, -rotationSpeed * Time.deltaTime);
         }
+
+        if (rotateCCW)
+        {
+            rt.Rotate(0, 0, rotationSpeed * Time.deltaTime);
+        }
+
+        if(scaleUpY && rt.localScale.y < 0.9f)
+        {
+            rt.localScale += new Vector3(0, scaleSpeed * Time.deltaTime, 0);
+        }
+
+        if (scaleDownY && rt.localScale.y > 0.35f)
+        {
+            rt.localScale -= new Vector3(0, scaleSpeed * Time.deltaTime, 0);
+        }
+
+        if (scalUpX && rt.localScale.x < 0.9f)
+        {
+            rt.localScale += new Vector3(scaleSpeed * Time.deltaTime, 0, 0);
+        }
+
+        if (scaleDownX && rt.localScale.x > 0.35f)
+        {
+            rt.localScale -= new Vector3(scaleSpeed * Time.deltaTime, 0, 0);
+        }
+
+        isTransforming = rotateCW || rotateCCW || scaleUpY || scaleDownY || scalUpX || scaleDownX;
     }
+
+    public void StartRotateCW(BaseEventData data) { rotateCW = true; }
+    public void StopRotateCW(BaseEventData data) { rotateCW = false; }
+
+    public void StartRotateCCW(BaseEventData data) { rotateCCW = true; }
+    public void StopRotateCCW(BaseEventData data) { rotateCCW = false; }
+
+    public void StartScaleUpY(BaseEventData data) { scaleUpY = true; }
+    public void StopScaleUpY(BaseEventData data) { scaleUpY = false; }
+
+    public void StartScaleDownY(BaseEventData data) { scaleDownY = true; }
+    public void StopScaleDownY(BaseEventData data) { scaleDownY = false; }
+
+    public void StartScaleUpX(BaseEventData data) { scalUpX = true; }
+    public void StopScaleUpX(BaseEventData data) { scalUpX = false; }
+
+    public void StartScaleDownX(BaseEventData data) { scaleDownX = true; }
+    public void StopScaleDownX(BaseEventData data) { scaleDownX = false; }
 }

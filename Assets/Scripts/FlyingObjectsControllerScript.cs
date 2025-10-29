@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+// CHANGES FOR ANDROID
 public class FlyingObjectsControllerScript : MonoBehaviour
 {
     [HideInInspector]
@@ -84,6 +85,26 @@ public class FlyingObjectsControllerScript : MonoBehaviour
         }
     }
 
+    bool TryGetInputPosition(out Vector2 position)
+    {
+#if UNITY_EDITOR || UNITY_STANDALONE
+            position = Input.mousePosition;
+            return true;
+
+#elif UNITY_ANDROID
+            if(Input.touchCount > 0)
+            {
+                position = Input.GetTouch(0).position;
+                return true;
+            }
+            else
+            {
+                position = Vector2.zero;
+                return false;
+            }
+#endif
+    }
+
     public void TriggerExplosion()
     {
         // 🛑 ja spēle beigusies, neko vairs nedara
@@ -150,22 +171,6 @@ public class FlyingObjectsControllerScript : MonoBehaviour
         }
     }
 
-    IEnumerator Vibrate()
-    {
-        Vector2 originalPosition = rectTransform.anchoredPosition;
-        float duration = 0.3f;
-        float elapsed = 0f;
-        float intensity = 5f;
-
-        while (elapsed < duration)
-        {
-            rectTransform.anchoredPosition = originalPosition + Random.insideUnitCircle * intensity;
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-        rectTransform.anchoredPosition = originalPosition;
-    }
-
     IEnumerator FadeIn()
     {
         float t = 0f;
@@ -214,5 +219,25 @@ public class FlyingObjectsControllerScript : MonoBehaviour
     {
         yield return new WaitForSeconds(seconds);
         image.color = originalColor;
+    }
+
+    IEnumerator Vibrate()
+    {
+#if UNITY_ANDROID
+        Handheld.Vibrate();
+#endif
+
+        Vector2 orginalPosition = rectTransform.anchoredPosition;
+        float duration = 0.3f;
+        float elpased = 0f;
+        float intensity = 5f;
+
+        while(elpased < duration)
+        {
+            rectTransform.anchoredPosition = orginalPosition + Random.insideUnitCircle * intensity;
+            elpased += Time.deltaTime;
+            yield return null;
+        }
+
     }
 }
