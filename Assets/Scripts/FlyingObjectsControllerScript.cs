@@ -57,9 +57,14 @@ public class FlyingObjectsControllerScript : MonoBehaviour
             isFadingOut = true;
         }
 
+        // Ja neko nevelk un kursors pieskaras bumbai
+        Vector2 inputPosition;
+        if(!TryGetInputPosition(out inputPosition))
+            return;
+
         // 💣 Bombei — ja kursors ir virs, bet tikai ja spēle nav beigusies
         if (!gameEnded && CompareTag("Bomb") && !isExploading &&
-            RectTransformUtility.RectangleContainsScreenPoint(rectTransform, Input.mousePosition, Camera.main))
+            RectTransformUtility.RectangleContainsScreenPoint(rectTransform, inputPosition, Camera.main))
         {
             Debug.Log("The cursor collided with a bomb! (without a car)");
             TriggerExplosion();
@@ -67,7 +72,7 @@ public class FlyingObjectsControllerScript : MonoBehaviour
 
         // 🚗 Kolīzija ar auto, ja spēle vēl notiek
         if (!gameEnded && ObjectScript.drag && !isFadingOut &&
-            RectTransformUtility.RectangleContainsScreenPoint(rectTransform, Input.mousePosition, Camera.main))
+            RectTransformUtility.RectangleContainsScreenPoint(rectTransform, inputPosition, Camera.main))
         {
             Debug.Log("The cursor collided with a flying object!");
 
