@@ -18,6 +18,12 @@ This is a children's interactive puzzle game where you need to rotate and scale 
 - [x] Create game timer (MM:SS)
 - [x] Add animated clouds, vehicles, people, animals etc.
 - [x] Add flying obstacles with destroy effects
+- [x] Change target platform to Android
+- [ ] Replace all mouse input with touch
+- [x] Fix camera max zoom
+- [ ] Add interstitial ad
+- [ ] Add rewarded ad
+- [ ] Add banner ad
 
 **Here you can see the Start Menu.**
 
