@@ -11,7 +11,7 @@ public class FlyingObjectsControllerScript : MonoBehaviour
     public float waveAmplitude = 25f;
     public float waveFrequency = 1f;
     private ObjectScript objectScript;
-    private ScreenBoundriesScript scrreenBoundriesScript;
+    private ScreenBoundriesScript screenBoundriesScript;
     private CanvasGroup canvasGroup;
     private RectTransform rectTransform;
     private bool isFadingOut = false;
@@ -30,7 +30,7 @@ public class FlyingObjectsControllerScript : MonoBehaviour
         originalColor = image.color;
 
         objectScript = FindFirstObjectByType<ObjectScript>();
-        scrreenBoundriesScript = FindFirstObjectByType<ScreenBoundriesScript>();
+        screenBoundriesScript = FindFirstObjectByType<ScreenBoundriesScript>();
 
         StartCoroutine(FadeIn());
     }
@@ -44,14 +44,14 @@ public class FlyingObjectsControllerScript : MonoBehaviour
         rectTransform.anchoredPosition += new Vector2(-speed * Time.deltaTime, waveOffset * Time.deltaTime);
 
         // <- pa kreisi
-        if (speed > 0 && transform.position.x < (scrreenBoundriesScript.minX + 80) && !isFadingOut)
+        if (speed > 0 && transform.position.x < (screenBoundriesScript.minX + 80) && !isFadingOut)
         {
             StartCoroutine(FadeOutAndDestroy());
             isFadingOut = true;
         }
 
         // -> pa labi
-        if (speed < 0 && transform.position.x > (scrreenBoundriesScript.maxX - 80) && !isFadingOut)
+        if (speed < 0 && transform.position.x > (screenBoundriesScript.maxX - 80) && !isFadingOut)
         {
             StartCoroutine(FadeOutAndDestroy());
             isFadingOut = true;
@@ -59,12 +59,15 @@ public class FlyingObjectsControllerScript : MonoBehaviour
 
         // Ja neko nevelk un kursors pieskaras bumbai
         Vector2 inputPosition;
-        if(!TryGetInputPosition(out inputPosition))
+        if (!TryGetInputPosition(out inputPosition))
             return;
+
+        // Iegūst kameru (vai null, ja Canvas ir Overlay)
+        Camera cam = (Camera.main != null) ? Camera.main : null;
 
         // 💣 Bombei — ja kursors ir virs, bet tikai ja spēle nav beigusies
         if (!gameEnded && CompareTag("Bomb") && !isExploading &&
-            RectTransformUtility.RectangleContainsScreenPoint(rectTransform, inputPosition, Camera.main))
+            RectTransformUtility.RectangleContainsScreenPoint(rectTransform, inputPosition, cam))
         {
             Debug.Log("The cursor collided with a bomb! (without a car)");
             TriggerExplosion();
@@ -72,7 +75,7 @@ public class FlyingObjectsControllerScript : MonoBehaviour
 
         // 🚗 Kolīzija ar auto, ja spēle vēl notiek
         if (!gameEnded && ObjectScript.drag && !isFadingOut &&
-            RectTransformUtility.RectangleContainsScreenPoint(rectTransform, inputPosition, Camera.main))
+            RectTransformUtility.RectangleContainsScreenPoint(rectTransform, inputPosition, cam))
         {
             Debug.Log("The cursor collided with a flying object!");
 
@@ -93,20 +96,23 @@ public class FlyingObjectsControllerScript : MonoBehaviour
     bool TryGetInputPosition(out Vector2 position)
     {
 #if UNITY_EDITOR || UNITY_STANDALONE
-            position = Input.mousePosition;
-            return true;
+        position = Input.mousePosition;
+        return true;
 
 #elif UNITY_ANDROID
-            if(Input.touchCount > 0)
-            {
-                position = Input.GetTouch(0).position;
-                return true;
-            }
-            else
-            {
-                position = Vector2.zero;
-                return false;
-            }
+        if (Input.touchCount > 0)
+        {
+            position = Input.GetTouch(0).position;
+            return true;
+        }
+        else
+        {
+            position = Vector2.zero;
+            return false;
+        }
+#else
+        position = Input.mousePosition;
+        return true;
 #endif
     }
 
@@ -237,12 +243,13 @@ public class FlyingObjectsControllerScript : MonoBehaviour
         float elpased = 0f;
         float intensity = 5f;
 
-        while(elpased < duration)
+        while (elpased < duration)
         {
             rectTransform.anchoredPosition = orginalPosition + Random.insideUnitCircle * intensity;
             elpased += Time.deltaTime;
             yield return null;
         }
 
+        rectTransform.anchoredPosition = orginalPosition; // Restore original position
     }
 }
