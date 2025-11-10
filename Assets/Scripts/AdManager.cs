@@ -7,55 +7,30 @@ public class AdManager : MonoBehaviour
     public AdsInitializer adsInitializer;
     public InterstitialAd interstitialAd;
     [SerializeField] bool turnOffInterstitialAd = false;
-    private bool firstAdShown = false;
 
-    // .......
+    private bool firstAdShown = false;
+    private bool firstSceneLoad = false;
 
     public static AdManager Instance { get; private set; }
 
-
     private void Awake()
     {
-        if(adsInitializer == null)
+        if (adsInitializer == null)
             adsInitializer = FindFirstObjectByType<AdsInitializer>();
 
-        if(Instance != null && Instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
         Instance = this;
-
         DontDestroyOnLoad(gameObject);
 
         adsInitializer.OnAdsInitialized += HandleAdsInitialized;
     }
 
-    private void HandleAdsInitialized()
-    {
-        if(!turnOffInterstitialAd)
-        {
-            interstitialAd.OnInterstitialAdReady += HandleInterstitialReady;
-            interstitialAd.LoadAd();
-        }
-    }
-
-    private void HandleInterstitialReady()
-    {
-        if (!firstAdShown)
-        {
-            Debug.Log("Showing first interstitial ad");
-            interstitialAd.ShowAd();
-            firstAdShown = true;
-        }
-        else
-        {
-            Debug.Log("Next Interstitial ad is ready for manual showing");
-        }
-    }
-
-    public void OnEnable()
+    private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
@@ -65,27 +40,76 @@ public class AdManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    private bool firstSceneLoad = false;
+    private void HandleAdsInitialized()
+    {
+        if (turnOffInterstitialAd)
+            return;
+
+        if (interstitialAd == null)
+            interstitialAd = FindFirstObjectByType<InterstitialAd>();
+
+        if (interstitialAd != null)
+        {
+            interstitialAd.OnInterstitialAdReady -= HandleInterstitialReady;
+            interstitialAd.OnInterstitialAdReady += HandleInterstitialReady;
+
+            Debug.Log("Loading first interstitial ad...");
+            interstitialAd.LoadAd();
+        }
+        else
+        {
+            Debug.LogWarning("InterstitialAd reference not found in scene!");
+        }
+    }
+
+    private void HandleInterstitialReady()
+    {
+        // Show ad only once when the game starts
+        if (!firstAdShown)
+        {
+            Debug.Log("Showing first interstitial ad on startup.");
+            interstitialAd.ShowAd();
+            firstAdShown = true;
+        }
+    }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (interstitialAd == null)
             interstitialAd = FindFirstObjectByType<InterstitialAd>();
 
-        Button interstitialButton = GameObject.FindGameObjectWithTag("InterstitialButton").GetComponent<Button>();
+        Button interstitialButton = null;
+        GameObject buttonObj = GameObject.FindGameObjectWithTag("InterstitialButton");
+        if (buttonObj != null)
+            interstitialButton = buttonObj.GetComponent<Button>();
 
         if (interstitialAd != null && interstitialButton != null)
-        {
             interstitialAd.SetButton(interstitialButton);
-        }
 
+        // Skip first load — ad already shown at startup
         if (!firstSceneLoad)
         {
             firstSceneLoad = true;
-            Debug.Log("First time scene Loaded!");
+            Debug.Log("Initial scene load complete (ad already shown).");
             return;
         }
 
-        Debug.Log("Scene loaded!");
-        HandleAdsInitialized();
+        // From now on, every scene change shows an ad if ready
+        Debug.Log($"Scene changed to: {scene.name}. Attempting to show ad...");
+
+        if (!turnOffInterstitialAd && interstitialAd != null)
+        {
+            if (interstitialAd.isReady)
+            {
+                Debug.Log("Ad ready — showing now.");
+                interstitialAd.ShowAd();      // Show immediately
+                interstitialAd.LoadAd();      // Preload next one
+            }
+            else
+            {
+                Debug.Log("Ad not ready — loading new one for next scene.");
+                interstitialAd.LoadAd();      // Load if missing
+            }
+        }
     }
 }
