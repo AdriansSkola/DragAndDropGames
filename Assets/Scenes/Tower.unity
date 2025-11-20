@@ -1796,7 +1796,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 552125585}
         m_TargetAssemblyTypeName: StartMenuController, Assembly-CSharp
         m_MethodName: OnBackClick
         m_Mode: 1
@@ -2241,6 +2241,10 @@ MonoBehaviour:
   adsInitializer: {fileID: 786071632}
   interstitialAd: {fileID: 786071631}
   turnOffInterstitialAd: 0
+  rewardedAds: {fileID: 0}
+  turnOffRewardedAds: 0
+  bannerAd: {fileID: 0}
+  turnOffBannerAd: 0
 --- !u!4 &786071634
 Transform:
   m_ObjectHideFlags: 0

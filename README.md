@@ -19,11 +19,11 @@ This is a children's interactive puzzle game where you need to rotate and scale 
 - [x] Add animated clouds, vehicles, people, animals etc.
 - [x] Add flying obstacles with destroy effects
 - [x] Change target platform to Android
-- [ ] Replace all mouse input with touch
+- [x] Replace all mouse input with touch
 - [x] Fix camera max zoom
-- [ ] Add interstitial ad
-- [ ] Add rewarded ad
-- [ ] Add banner ad
+- [x] Add interstitial ad
+- [x] Add rewarded ad
+- [x] Add banner ad
 
 **Here you can see the Start Menu.**
 

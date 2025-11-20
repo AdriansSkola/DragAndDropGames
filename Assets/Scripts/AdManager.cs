@@ -10,6 +10,11 @@ public class AdManager : MonoBehaviour
 
     private bool firstAdShown = false;
     private bool firstSceneLoad = false;
+    public RewardedAds rewardedAds;
+    [SerializeField] bool turnOffRewardedAds = false;
+
+    public BannerAd bannerAd;
+    [SerializeField] bool turnOffBannerAd = false;
 
     public static AdManager Instance { get; private set; }
 
@@ -60,6 +65,16 @@ public class AdManager : MonoBehaviour
         {
             Debug.LogWarning("InterstitialAd reference not found in scene!");
         }
+
+        if (!turnOffRewardedAds)
+        {
+            rewardedAds.LoadAd();
+        }
+
+        if (!turnOffBannerAd)
+        {
+            bannerAd.LoadBanner();
+        }
     }
 
     private void HandleInterstitialReady()
@@ -86,6 +101,26 @@ public class AdManager : MonoBehaviour
         if (interstitialAd != null && interstitialButton != null)
             interstitialAd.SetButton(interstitialButton);
 
+            
+
+        if (rewardedAds == null)
+            rewardedAds = FindFirstObjectByType<RewardedAds>();
+
+        Button rewardedAdButton = GameObject.FindGameObjectWithTag("RewardedButton")?.GetComponent<Button>();
+
+        if (rewardedAds != null && rewardedAdButton != null)
+            rewardedAds.SetButton(rewardedAdButton);
+
+        if (bannerAd == null)
+            bannerAd = FindFirstObjectByType<BannerAd>();
+
+        Button bannerButton = GameObject.FindGameObjectWithTag("BannerButton")?.GetComponent<Button>();
+
+        if (bannerAd != null && bannerButton != null)
+        {
+            bannerAd.SetButton(bannerButton);
+        }
+        
         // Skip first load — ad already shown at startup
         if (!firstSceneLoad)
         {
