@@ -22,4 +22,17 @@ public class StartMenuController : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void RestartGame()
+    {
+        // Ielādē pašreizējo ainu no jauna
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void ExitToStartMenu()
+    {
+        // Ielādē “StartMenu” ainu
+        SceneManager.LoadScene("StartMenu");
+    }
+
 }

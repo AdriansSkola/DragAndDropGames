@@ -4194,6 +4194,8 @@ MonoBehaviour:
   turnOffInterstitialAd: 0
   rewardedAds: {fileID: 0}
   turnOffRewardedAds: 0
+  bannerAd: {fileID: 0}
+  turnOffBannerAd: 0
 --- !u!4 &786071634
 Transform:
   m_ObjectHideFlags: 0
@@ -4236,6 +4238,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1570a99fb859f8e46a04f435fa29cb4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BannerAd
+  _androidAdUnitId: Banner_Android
+  _bannerButton: {fileID: 0}
+  isBannerVisible: 0
+  _bannerPosition: 4
 --- !u!114 &786071637
 MonoBehaviour:
   m_ObjectHideFlags: 0
