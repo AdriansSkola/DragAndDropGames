@@ -8,6 +8,7 @@ public class BannerAd : MonoBehaviour
     string _adUnitId;
     [SerializeField] Button _bannerButton;
     public bool isBannerVisible = false;
+    private bool isLoaded = false;
     [SerializeField] BannerPosition _bannerPosition = BannerPosition.BOTTOM_CENTER;
 
     private void Awake()
@@ -36,7 +37,15 @@ public class BannerAd : MonoBehaviour
     void OnBannerLoaded()
     {
         Debug.Log("Banner ad loaded!");
-        _bannerButton.interactable = true;
+        isLoaded = true;
+        if (_bannerButton != null)
+        {
+            _bannerButton.interactable = true;
+        }
+        else
+        {
+            Debug.LogWarning("BannerAd: OnBannerLoaded called but no _bannerButton is assigned. Set a button with tag 'BannerButton' or assign in inspector.");
+        }
     }
 
     void OnBannerError(string message)
@@ -95,6 +104,6 @@ public class BannerAd : MonoBehaviour
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(ShowBannerAd);
         _bannerButton = button;
-        _bannerButton.interactable = false;
+        _bannerButton.interactable = isLoaded;
     }
 }

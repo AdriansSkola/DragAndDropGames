@@ -266,4 +266,19 @@ public class TowerManager : MonoBehaviour
             UpdateUI();
         }
     }
+
+    // Reduce the recorded move count (used by rewarded ad) and update UI.
+    // This is public so external systems (ads, powerups) can grant move reductions.
+    public void ReduceMoves(int amount)
+    {
+        if (puzzleSolved) // no effect if already solved
+            return;
+
+        if (amount <= 0)
+            return;
+
+        moveCount = Mathf.Max(0, moveCount - amount);
+        UpdateUI();
+        Debug.Log($"TowerManager: reduced moves by {amount}. New move count: {moveCount}");
+    }
 }

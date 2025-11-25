@@ -79,7 +79,15 @@ public class InterstitialAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSho
     public void OnUnityAdsAdLoaded(string placementId)
     {
         Debug.Log("Interstitial ad loaded successfully!");
-        _interstitialAdButton.interactable = true;
+        if (_interstitialAdButton != null)
+        {
+            _interstitialAdButton.interactable = true;
+        }
+        else
+        {
+            Debug.LogWarning("InterstitialAd: ad loaded but _interstitialAdButton is null. It will be bindable later if present in a scene.");
+        }
+
         isReady = true;
         OnInterstitialAdReady?.Invoke();
     }
@@ -140,6 +148,7 @@ public class InterstitialAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSho
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(OnInterstitialAdButtonClicked);
         _interstitialAdButton = button;
-        _interstitialAdButton.interactable = false;
+        // If the ad already loaded, enable the button. Otherwise keep it disabled until loaded callback.
+        _interstitialAdButton.interactable = isReady;
     }
 }

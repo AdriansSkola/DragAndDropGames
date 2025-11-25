@@ -2690,6 +2690,7 @@ GameObject:
   - component: {fileID: 552125585}
   - component: {fileID: 552125586}
   - component: {fileID: 552125587}
+  - component: {fileID: 552125588}
   m_Layer: 0
   m_Name: ScriptHolder
   m_TagString: Untagged
@@ -2915,6 +2916,18 @@ MonoBehaviour:
   threeStarThreshold: 120
   twoStarThreshold: 180
   oneStarThreshold: 240
+--- !u!114 &552125588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 552125579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd661d525cce5564f8b40d66a3283534, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TowerCamera
 --- !u!1 &557776437
 GameObject:
   m_ObjectHideFlags: 0
@@ -4226,6 +4239,7 @@ MonoBehaviour:
   _androidAdUnitId: Rewarded_Android
   _rewardedAdButton: {fileID: 0}
   flyingObjectManager: {fileID: 0}
+  movesReductionAmount: 4
 --- !u!114 &786071636
 MonoBehaviour:
   m_ObjectHideFlags: 0

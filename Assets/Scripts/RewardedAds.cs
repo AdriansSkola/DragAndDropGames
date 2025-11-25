@@ -9,6 +9,8 @@ public class RewardedAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
     string _adUnitId;
     [SerializeField] Button _rewardedAdButton;
     public FlyingObjectManager flyingObjectManager;
+    // How many moves to remove from TowerManager when the player watches a rewarded ad
+    [SerializeField] int movesReductionAmount = 4;
 
     private void Awake()
     {
@@ -17,6 +19,8 @@ public class RewardedAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
         if (flyingObjectManager == null)
             flyingObjectManager = FindFirstObjectByType<FlyingObjectManager>();
     }
+
+    private bool isLoaded = false;
 
     public void LoadAd()
     {
@@ -32,9 +36,17 @@ public class RewardedAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
     public void OnUnityAdsAdLoaded(string placementId)
     {
         Debug.Log("Rewarded ad loaded!");
-        if(placementId.Equals(_adUnitId))
+        if (placementId.Equals(_adUnitId))
         {
-            _rewardedAdButton.interactable = true;
+            isLoaded = true;
+            if (_rewardedAdButton != null)
+            {
+                _rewardedAdButton.interactable = true;
+            }
+            else
+            {
+                Debug.LogWarning("RewardedAds: ad loaded but no _rewardedAdButton assigned. Button will be enabled if assigned later.");
+            }
         }
     }
 
@@ -92,6 +104,18 @@ public class RewardedAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
             }
 
             StartCoroutine(WaitAndLoad(10f));
+
+            // If a TowerManager exists in the scene, reduce moves there by the configured amount
+            var towerManager = FindFirstObjectByType<TowerManager>();
+            if (towerManager != null)
+            {
+                towerManager.ReduceMoves(movesReductionAmount);
+                Debug.Log($"RewardedAds: applied move reduction of {movesReductionAmount} to TowerManager.");
+            }
+            else
+            {
+                Debug.LogWarning("RewardedAds: TowerManager not found in scene; cannot apply move reduction.");
+            }
         }
         else
         {
@@ -111,7 +135,8 @@ public class RewardedAds : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowLi
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(ShowAd);
         _rewardedAdButton = button;
-        _rewardedAdButton.interactable = false;
+        // If the ad was already loaded earlier, make the button interactable immediately
+        _rewardedAdButton.interactable = isLoaded;
     }
     
     public void ShowAd()
