@@ -3,6 +3,8 @@ Unity 2D Drag And Drop games for children +6.
 
 This is a children's interactive puzzle game where you need to rotate and scale the cars to the correct sizes in order to win. You can earn 3 stars if you complete the puzzle in under two minutes, 2 stars if you finish in under three minutes, and 1 star if you finish in under four minutes. You can use bombs to destroy clouds and flying objects by hovering over the bombs that float around the screen.
 
+There is also another game that’s based on the Hanoi Tower puzzle, but this one uses 4 colorful blocks. The goal is to move all the randomized blocks to the right side, placing them in the correct order-from the biggest block at the bottom to the smallest block on top—without breaking the rules of the puzzle. It’s a fun way to practice thinking, planning ahead, and solving problems!
+
 **To do list:**
 - [x] Create the necessary folders
 - [x] Add necessary assets
