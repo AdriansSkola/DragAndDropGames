@@ -28,6 +28,8 @@ public class TowerManager : MonoBehaviour
     public UnityEngine.UI.Text movesText;
     public GameObject winPanel;
     public UnityEngine.UI.Text winText;
+    [Header("Audio (optional)")]
+    public AudioSource winSound;
 
     private System.Random rnd = new System.Random();
 
@@ -47,6 +49,25 @@ public class TowerManager : MonoBehaviour
         UpdateUI();
         if (winPanel != null)
             winPanel.SetActive(false);
+
+        // Prevent a WinSound AudioSource from playing on startup by turning off PlayOnAwake and stopping it
+        if (winSound == null)
+        {
+            var go = GameObject.Find("WinSound");
+            if (go != null)
+                winSound = go.GetComponent<AudioSource>();
+        }
+
+        if (winSound != null)
+        {
+            if (winSound.playOnAwake)
+            {
+                Debug.Log("TowerManager: disabling PlayOnAwake on WinSound to prevent startup playback.");
+                winSound.playOnAwake = false;
+            }
+            if (winSound.isPlaying)
+                winSound.Stop();
+        }
     }
 
     // Randomize block distribution while keeping valid stacks (bigger at bottom)
@@ -255,6 +276,32 @@ public class TowerManager : MonoBehaviour
             puzzleSolved = true;
             if (winPanel != null)
                 winPanel.SetActive(true);
+
+            // Play configured win sound if available. If winSound not assigned, try to find an object named 'WinSound'
+            if (winSound == null)
+            {
+                var go = GameObject.Find("WinSound");
+                if (go != null)
+                {
+                    winSound = go.GetComponent<AudioSource>();
+                }
+            }
+
+            if (winSound != null)
+            {
+                try
+                {
+                    // Use PlayOneShot so we don't alter AudioSource state or restart unexpected playback
+                    if (winSound.clip != null)
+                        winSound.PlayOneShot(winSound.clip);
+                    else
+                        winSound.Play();
+                }
+                catch (System.Exception e)
+                {
+                    Debug.LogWarning($"TowerManager: failed to play win sound: {e.Message}");
+                }
+            }
             if (winText != null)
             {
                 winText.text = "You win! Moves: " + moveCount;

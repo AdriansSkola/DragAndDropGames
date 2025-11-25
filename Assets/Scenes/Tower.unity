@@ -1565,6 +1565,7 @@ MonoBehaviour:
   movesText: {fileID: 1391642306}
   winPanel: {fileID: 45191992}
   winText: {fileID: 1877168011}
+  winSound: {fileID: 0}
 --- !u!114 &552125587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4085,7 +4086,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 2f0d6b1abbc1dd548a0da9a9338276eb, type: 3}
+  m_Resource: {fileID: 8300000, guid: 5d8d77459d06f6b4395b06a69b03ca38, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.5
   m_Pitch: 1
