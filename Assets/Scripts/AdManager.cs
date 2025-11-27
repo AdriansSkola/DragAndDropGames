@@ -138,6 +138,10 @@ public class AdManager : MonoBehaviour
             bannerAd = FindFirstObjectByType<BannerAd>();
 
         TryBindButtonToAd("BannerButton", bannerAd, (b) => bannerAd.SetButton(b));
+
+        // Ensure the banner is visible in the newly loaded scene (if available)
+        if (bannerAd != null)
+            bannerAd.EnsureBannerShown();
         
         // Skip first load — ad already shown at startup
         if (!firstSceneLoad)

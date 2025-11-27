@@ -264,14 +264,14 @@ PlayerSettings:
   useCustomGradlePropertiesTemplate: 1
   useCustomGradleSettingsTemplate: 1
   useCustomProguardFile: 0
-  AndroidTargetArchitectures: 2
+  AndroidTargetArchitectures: 10
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
   AndroidKeystoreName: 
   AndroidKeyaliasName: 
   AndroidEnableArmv9SecurityFeatures: 0
   AndroidEnableArm64MTE: 0
-  AndroidBuildApkPerCpuArchitecture: 0
+  AndroidBuildApkPerCpuArchitecture: 1
   AndroidTVCompatibility: 0
   AndroidIsGame: 1
   androidAppCategory: 3

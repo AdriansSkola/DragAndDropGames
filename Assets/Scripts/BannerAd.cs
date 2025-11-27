@@ -46,6 +46,39 @@ public class BannerAd : MonoBehaviour
         {
             Debug.LogWarning("BannerAd: OnBannerLoaded called but no _bannerButton is assigned. Set a button with tag 'BannerButton' or assign in inspector.");
         }
+        // Auto-show the banner immediately after it has been loaded so banners appear across scenes
+        BannerOptions showOptions = new BannerOptions
+        {
+            showCallback = OnBannerShown,
+            hideCallback = OnBannerHidden,
+            clickCallback = OnBannerClicked
+        };
+
+        Debug.Log("BannerAd: Showing banner after load.");
+        Advertisement.Banner.Show(_adUnitId, showOptions);
+    }
+
+    // Call this if you want to ensure a banner is visible (no-op if already visible)
+    public void EnsureBannerShown()
+    {
+        if (isBannerVisible)
+            return;
+
+        if (!isLoaded)
+        {
+            Debug.Log("BannerAd: not loaded yet, will load and show.");
+            LoadBanner();
+            return;
+        }
+
+        BannerOptions options = new BannerOptions
+        {
+            showCallback = OnBannerShown,
+            hideCallback = OnBannerHidden,
+            clickCallback = OnBannerClicked
+        };
+
+        Advertisement.Banner.Show(_adUnitId, options);
     }
 
     void OnBannerError(string message)
