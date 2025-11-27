@@ -1,19 +1,11 @@
+// PegClick has been removed. BlockDrag handles dragging and dropping to pegs now.
 using UnityEngine;
 
+[System.Obsolete("PegClick is deprecated. Use BlockDrag for drag & drop behavior.")]
 public class PegClick : MonoBehaviour
 {
-    public int pegNumber; // 1,2,3
-    private TowerManager manager;
     private void Start()
     {
-        manager = UnityEngine.Object.FindAnyObjectByType<TowerManager>();
-    }
-
-    private void OnMouseDown()
-    {
-        if (manager == null)
-            return;
-
-        manager.OnPegClicked(pegNumber);
+        // intentionally disabled stub kept for compatibility
     }
 }

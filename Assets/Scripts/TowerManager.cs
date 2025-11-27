@@ -117,13 +117,42 @@ public class TowerManager : MonoBehaviour
             var block = pegList[i];
             if (anchors != null && anchors.Length > i && anchors[i] != null)
             {
-                block.transform.position = anchors[i].position;
-                block.transform.SetParent(anchors[i], true);
+                // Support both UI (RectTransform) and world-space anchors.
+                var blockRect = block.GetComponent<RectTransform>();
+                var anchorRect = anchors[i] as RectTransform;
+                if (blockRect != null && anchorRect != null)
+                {
+                    // place as UI child, align to anchor
+                    blockRect.SetParent(anchorRect, false);
+                    blockRect.anchoredPosition = Vector2.zero;
+                }
+                else
+                {
+                    block.transform.position = anchors[i].position;
+                    block.transform.SetParent(anchors[i], true);
+                }
+                block.SetKinematic(true);
             }
             else if (peg1 != null)
             {
-                // fallback parenting so the scene stays tidy
-                block.transform.SetParent(peg1, true);
+                // fallback parenting so the scene stays tidy: pick the peg corresponding to this pegList
+                int pegNum = GetPegNumberForList(pegList);
+                Transform pegTransform = (pegNum == 1) ? peg1 : (pegNum == 2) ? peg2 : peg3;
+                if (pegTransform != null)
+                {
+                    var blockRect = block.GetComponent<RectTransform>();
+                    var pegRect = pegTransform as RectTransform;
+                    if (blockRect != null && pegRect != null)
+                    {
+                        blockRect.SetParent(pegRect, false);
+                        blockRect.anchoredPosition = Vector2.zero;
+                    }
+                    else
+                    {
+                        block.transform.SetParent(pegTransform, true);
+                    }
+                    block.SetKinematic(true);
+                }
             }
             block.isTopBlock = (i == pegList.Count - 1); // top is last
             block.currentPeg = GetPegNumberForList(pegList);
@@ -167,7 +196,7 @@ public class TowerManager : MonoBehaviour
         }
     }
 
-    // Called by BlockClick when a block is tapped
+    // Called when a block is tapped or selected (e.g. BlockDrag)
     public void SelectBlock(Block b)
     {
         if (puzzleSolved) return;
@@ -176,6 +205,7 @@ public class TowerManager : MonoBehaviour
         // If player taps a top block, select/deselect it
         if (b.isTopBlock)
         {
+            Debug.Log($"TowerManager: SelectBlock called for block(size={b.size}, peg={b.currentPeg}). currentlySelected={(selectedBlock!=null ? selectedBlock.size.ToString() : "none")}");
             if (selectedBlock == b)
             {
                 selectedBlock.SetHighlight(false);
@@ -197,7 +227,7 @@ public class TowerManager : MonoBehaviour
         }
     }
 
-    // Called by PegClick when a peg is tapped
+    // (Previously used by PegClick) Called when a peg is tapped or targeted
     public void OnPegClicked(int pegNumber)
     {
         if (puzzleSolved) return;
@@ -215,6 +245,16 @@ public class TowerManager : MonoBehaviour
         TryMoveSelectedToPeg(pegNumber);
     }
 
+    // Allows external systems (like drag drop) to explicitly deselect the currently selected block.
+    public void DeselectCurrentBlock()
+    {
+        if (selectedBlock != null)
+        {
+            selectedBlock.SetHighlight(false);
+            selectedBlock = null;
+        }
+    }
+
     private Block GetTopBlock(int pegNumber)
     {
         var list = GetPegList(pegNumber);
@@ -222,17 +262,19 @@ public class TowerManager : MonoBehaviour
         return list[list.Count - 1];
     }
 
-    private void TryMoveSelectedToPeg(int pegNumber)
+    // Try to move selected block to pegNumber. Returns true if move happened.
+    public bool TryMoveSelectedToPeg(int pegNumber)
     {
-        if (selectedBlock == null) return;
+        if (selectedBlock == null) return false;
 
         int fromPeg = selectedBlock.currentPeg;
+        Debug.Log($"TowerManager: TryMoveSelectedToPeg from {fromPeg} to {pegNumber} for block size {selectedBlock.size}");
         if (fromPeg == pegNumber)
         {
             // deselect - tapping same peg does nothing
             selectedBlock.SetHighlight(false);
             selectedBlock = null;
-            return;
+            return false;
         }
 
         var destList = GetPegList(pegNumber);
@@ -241,6 +283,7 @@ public class TowerManager : MonoBehaviour
         // allowed if dest empty OR selected smaller than dest top
         if (destTop == null || selectedBlock.size < destTop.size)
         {
+            Debug.Log($"TowerManager: move allowed (destTopSize={(destTop!=null?destTop.size:0)})");
             // remove from source list
             var fromList = GetPegList(fromPeg);
             if (fromList != null)
@@ -261,12 +304,15 @@ public class TowerManager : MonoBehaviour
             selectedBlock = null;
 
             CheckWinCondition();
+            return true;
         }
         else
         {
+            Debug.Log($"TowerManager: move denied. selected size {selectedBlock.size} > dest top size {destTop.size}");
             // cannot move, maybe give feedback later
             // keep selection but flash highlight briefly
         }
+        return false;
     }
 
     private void CheckWinCondition()

@@ -327,7 +327,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -725, y: -42.4421}
-  m_SizeDelta: {x: 50, y: 810}
+  m_SizeDelta: {x: 60, y: 810}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &76900327
 MonoBehaviour:
@@ -379,7 +379,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3de90cd62e3adc4383b8e722d53849f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PegClick
-  pegNumber: 1
 --- !u!61 &76900330
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -424,7 +423,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 50, y: 810}
+  m_Size: {x: 100, y: 810}
   m_EdgeRadius: 0
 --- !u!114 &76900331
 MonoBehaviour:
@@ -603,8 +602,8 @@ GameObject:
   - component: {fileID: 142745985}
   - component: {fileID: 142745984}
   - component: {fileID: 142745986}
-  - component: {fileID: 142745987}
   - component: {fileID: 142745988}
+  - component: {fileID: 142745989}
   m_Layer: 5
   m_Name: Block4
   m_TagString: Untagged
@@ -684,18 +683,6 @@ MonoBehaviour:
   size: 1
   currentPeg: 1
   isTopBlock: 1
---- !u!114 &142745987
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 142745982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 754e2f8c2c3b4d24f905a9e5ce03a74d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BlockClick
 --- !u!61 &142745988
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -742,6 +729,21 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 100, y: 100}
   m_EdgeRadius: 0
+--- !u!114 &142745989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 142745982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5bf1381585d4ea42b1736fc84de935b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BlockDrag
+  snapDistance: 1000
+  snapDistancePixels: 1000
+  debugSnap: 0
 --- !u!1 &159013986
 GameObject:
   m_ObjectHideFlags: 0
@@ -1565,7 +1567,7 @@ MonoBehaviour:
   movesText: {fileID: 1391642306}
   winPanel: {fileID: 45191992}
   winText: {fileID: 1877168011}
-  winSound: {fileID: 0}
+  winSound: {fileID: 1366737824}
 --- !u!114 &552125587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2382,8 +2384,8 @@ GameObject:
   - component: {fileID: 770754708}
   - component: {fileID: 770754707}
   - component: {fileID: 770754709}
-  - component: {fileID: 770754710}
   - component: {fileID: 770754711}
+  - component: {fileID: 770754712}
   m_Layer: 5
   m_Name: Block1
   m_TagString: Untagged
@@ -2463,18 +2465,6 @@ MonoBehaviour:
   size: 4
   currentPeg: 1
   isTopBlock: 0
---- !u!114 &770754710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 770754705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 754e2f8c2c3b4d24f905a9e5ce03a74d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BlockClick
 --- !u!61 &770754711
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2521,6 +2511,21 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 100, y: 100}
   m_EdgeRadius: 0
+--- !u!114 &770754712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770754705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5bf1381585d4ea42b1736fc84de935b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BlockDrag
+  snapDistance: 1000
+  snapDistancePixels: 1000
+  debugSnap: 0
 --- !u!1 &770759744
 GameObject:
   m_ObjectHideFlags: 0
@@ -2791,7 +2796,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 853, y: -42.442104}
-  m_SizeDelta: {x: 50, y: 810}
+  m_SizeDelta: {x: 60, y: 810}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &930519904
 MonoBehaviour:
@@ -2843,7 +2848,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3de90cd62e3adc4383b8e722d53849f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PegClick
-  pegNumber: 3
 --- !u!61 &930519907
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2888,7 +2892,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 50, y: 810}
+  m_Size: {x: 100, y: 810}
   m_EdgeRadius: 0
 --- !u!114 &930519908
 MonoBehaviour:
@@ -4670,8 +4674,8 @@ GameObject:
   - component: {fileID: 1706636145}
   - component: {fileID: 1706636144}
   - component: {fileID: 1706636146}
-  - component: {fileID: 1706636147}
   - component: {fileID: 1706636148}
+  - component: {fileID: 1706636149}
   m_Layer: 5
   m_Name: Block2
   m_TagString: Untagged
@@ -4751,18 +4755,6 @@ MonoBehaviour:
   size: 3
   currentPeg: 1
   isTopBlock: 0
---- !u!114 &1706636147
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1706636142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 754e2f8c2c3b4d24f905a9e5ce03a74d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BlockClick
 --- !u!61 &1706636148
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4809,6 +4801,21 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 100, y: 100}
   m_EdgeRadius: 0
+--- !u!114 &1706636149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1706636142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5bf1381585d4ea42b1736fc84de935b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BlockDrag
+  snapDistance: 1000
+  snapDistancePixels: 1000
+  debugSnap: 0
 --- !u!1 &1808082177
 GameObject:
   m_ObjectHideFlags: 0
@@ -4852,8 +4859,8 @@ GameObject:
   - component: {fileID: 1826319901}
   - component: {fileID: 1826319900}
   - component: {fileID: 1826319902}
-  - component: {fileID: 1826319903}
   - component: {fileID: 1826319904}
+  - component: {fileID: 1826319905}
   m_Layer: 5
   m_Name: Block3
   m_TagString: Untagged
@@ -4933,18 +4940,6 @@ MonoBehaviour:
   size: 2
   currentPeg: 1
   isTopBlock: 0
---- !u!114 &1826319903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1826319898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 754e2f8c2c3b4d24f905a9e5ce03a74d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BlockClick
 --- !u!61 &1826319904
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4991,6 +4986,21 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 100, y: 100}
   m_EdgeRadius: 0
+--- !u!114 &1826319905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826319898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5bf1381585d4ea42b1736fc84de935b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BlockDrag
+  snapDistance: 1000
+  snapDistancePixels: 1000
+  debugSnap: 0
 --- !u!1 &1877168010
 GameObject:
   m_ObjectHideFlags: 0
@@ -5112,7 +5122,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 61, y: -42.4421}
-  m_SizeDelta: {x: 50, y: 810}
+  m_SizeDelta: {x: 60, y: 810}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1958942923
 MonoBehaviour:
@@ -5164,7 +5174,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3de90cd62e3adc4383b8e722d53849f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PegClick
-  pegNumber: 2
 --- !u!61 &1958942926
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5209,7 +5218,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 50, y: 810}
+  m_Size: {x: 100, y: 810}
   m_EdgeRadius: 0
 --- !u!114 &1958942927
 MonoBehaviour:

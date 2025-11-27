@@ -1,21 +1,11 @@
+// BlockClick has been removed. Use BlockDrag (Assets/Scripts/BlockDrag.cs) for click & drag behaviour.
 using UnityEngine;
 
+[System.Obsolete("BlockClick is deprecated. Use BlockDrag instead.")]
 public class BlockClick : MonoBehaviour
 {
-    private TowerManager manager;
-    private Block block;
-
     private void Start()
     {
-        manager = UnityEngine.Object.FindAnyObjectByType<TowerManager>();
-        block = GetComponent<Block>();
-    }
-
-    private void OnMouseDown()
-    {
-        if (manager == null || block == null)
-            return;
-
-        manager.SelectBlock(block);
+        // intentionally left empty - legacy stub to avoid missing-file references
     }
 }
