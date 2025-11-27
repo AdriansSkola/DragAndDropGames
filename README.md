@@ -42,9 +42,12 @@ This is a children's interactive puzzle game where you need to rotate and scale 
 
 <img width="1918" height="1079" alt="lost" src="https://github.com/user-attachments/assets/100f40f6-158c-4070-8b86-28100698e8bb" />
 
+
+
 There is also another game that’s based on the Hanoi Tower puzzle, but this one uses 4 colorful blocks. The goal is to move all the randomized blocks to the right side, placing them in the correct order-from the biggest block at the bottom to the smallest block on top—without breaking the rules of the puzzle. It’s a fun way to practice thinking, planning ahead, and solving problems!
 
 **Here is the main game, where you place hanoi tower.**
-
+<img width="1142" height="563" alt="image" src="https://github.com/user-attachments/assets/fb80f51d-9868-41f2-beee-6cd5853fdae2" />
 
 **Here you can see a screenshot of the game when you win.**
+<img width="1147" height="559" alt="image" src="https://github.com/user-attachments/assets/25e74046-fa85-4f8a-8f8e-d5c7475c7512" />
